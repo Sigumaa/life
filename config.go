@@ -43,7 +43,7 @@ func writeEditor() (string, error) {
 		return "", err
 	}
 	defer f.Close()
-	if _, err = f.WriteString("editor: " + editor); err != nil {
+	if _, err = f.WriteString("editor: " + editor + "\n"); err != nil {
 		return "", err
 	}
 	return editor, nil
@@ -61,7 +61,7 @@ func writeGitUri() (string, error) {
 		return "", err
 	}
 	defer f.Close()
-	if _, err = f.WriteString("git_uri: " + git_uri); err != nil {
+	if _, err = f.WriteString("git_uri: " + git_uri + "\n"); err != nil {
 		return "", err
 	}
 	return git_uri, nil
