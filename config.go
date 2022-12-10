@@ -32,7 +32,7 @@ func createYaml() error {
 }
 
 func writeEditor() (string, error) {
-	fmt.Println("Please enter your editor of choice(vi,vim,nvim,vscode):\n> ")
+	fmt.Print("Please enter your editor of choice(vi,vim,nvim,vscode):\n> ")
 	s.Scan()
 	editor := s.Text()
 	if editor == "" {
@@ -50,7 +50,7 @@ func writeEditor() (string, error) {
 }
 
 func writeGitUri() (string, error) {
-	fmt.Println("Please enter your git uri:\n> ")
+	fmt.Print("Please enter your git uri:\n> ")
 	s.Scan()
 	git_uri := s.Text()
 	if git_uri == "" {
