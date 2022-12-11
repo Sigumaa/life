@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"os/exec"
 )
 
@@ -12,11 +13,18 @@ var (
 	ErrPushGit = errors.New("git push failed")
 )
 
-func Save(g string, l string) (err error) {
+func Save(g string) (err error) {
+	fmt.Print("Please enter the name of the file you want to save: ")
+	s.Scan()
+	l := s.Text()
+	if l == "" {
+		return ErrEmptyMemo
+	}
+	f := "LIFE/" + l
 	if err := gitinit(); err != nil {
 		return err
 	}
-	_, err = exec.Command("git", "add", l).Output()
+	_, err = exec.Command("git", "add", f).Output()
 	if err != nil {
 		return ErrAddGit
 	}

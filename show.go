@@ -11,7 +11,7 @@ var (
 	ErrReadDir = errors.New("failed to read directory")
 )
 
-func show() error {
+func Show() error {
 	fs, err := getFiles("LIFE")
 	if err != nil {
 		return err
