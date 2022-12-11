@@ -13,6 +13,17 @@ const yaml_name = "life.yaml"
 
 var s = bufio.NewScanner(os.Stdin)
 
+var (
+	ErrCreateConfig = errors.New("failed to create config file")
+	ErrEmptyEditor  = errors.New("editor cannot be empty")
+	ErrEmptyGitUri  = errors.New("git uri cannot be empty")
+	ErrOpenConfig   = errors.New("failed to open config file")
+	ErrWriteConfig  = errors.New("failed to write to config file")
+	ErrReadConfig   = errors.New("failed to read config file")
+	ErrUnmarshal    = errors.New("failed to unmarshal config file")
+	ErrEditConfig   = errors.New("failed to edit config file")
+)
+
 type Config struct {
 	Editor string
 	GitURI string
@@ -26,7 +37,7 @@ func exists(path string) bool {
 func createYaml() error {
 	f, err := os.Create(yaml_name)
 	if err != nil {
-		return err
+		return ErrCreateConfig
 	}
 	defer f.Close()
 	return nil
@@ -37,15 +48,15 @@ func writeEditor() (string, error) {
 	s.Scan()
 	editor := s.Text()
 	if editor == "" {
-		return "", errors.New("editor cannot be empty")
+		return "", ErrEmptyEditor
 	}
 	f, err := os.OpenFile(yaml_name, os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
-		return "", err
+		return "", ErrOpenConfig
 	}
 	defer f.Close()
 	if _, err = f.WriteString("editor: " + editor + "\n"); err != nil {
-		return "", err
+		return "", ErrWriteConfig
 	}
 	return editor, nil
 }
@@ -55,15 +66,15 @@ func writeGitUri() (string, error) {
 	s.Scan()
 	git_uri := s.Text()
 	if git_uri == "" {
-		return "", errors.New("git uri cannot be empty")
+		return "", ErrEmptyGitUri
 	}
 	f, err := os.OpenFile(yaml_name, os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
-		return "", err
+		return "", ErrOpenConfig
 	}
 	defer f.Close()
 	if _, err = f.WriteString("git_uri: " + git_uri + "\n"); err != nil {
-		return "", err
+		return "", ErrWriteConfig
 	}
 	return git_uri, nil
 }
@@ -76,11 +87,11 @@ func LoadConfig() (res Config, err error) {
 	}
 	y, err := os.ReadFile(yaml_name)
 	if err != nil {
-		return res, err
+		return res, ErrReadConfig
 	}
 	d := make(map[string]string)
 	if err := yaml.Unmarshal(y, &d); err != nil {
-		return res, err
+		return res, ErrUnmarshal
 	}
 	e, ok := d["editor"]
 	if !ok {
@@ -109,7 +120,7 @@ func EditConfig(e string) (err error) {
 	}
 	_, err = exec.Command(e, yaml_name).Output()
 	if err != nil {
-		return err
+		return ErrEditConfig
 	}
 	return nil
 }

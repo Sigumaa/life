@@ -1,9 +1,14 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
+)
+
+var (
+	ErrReadDir = errors.New("failed to read directory")
 )
 
 func show() error {
@@ -20,7 +25,7 @@ func show() error {
 func getFiles(path string) ([]string, error) {
 	fs, err := os.ReadDir(path)
 	if err != nil {
-		return nil, err
+		return nil, ErrReadDir
 	}
 	var files []string
 	for _, f := range fs {
