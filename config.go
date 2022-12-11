@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
+	"os/exec"
 )
 
 const yaml_name = "life.yaml"
@@ -98,4 +99,32 @@ func LoadConfig() (res Config, err error) {
 	res.Editor = e
 	res.GitURI = g
 	return res, nil
+}
+
+func EditConfig() error {
+	if !exists(yaml_name) {
+		if err := createYaml(); err != nil {
+			return err
+		}
+	}
+	y, err := os.ReadFile(yaml_name)
+	if err != nil {
+		return err
+	}
+	d := make(map[string]string)
+	if err := yaml.Unmarshal(y, &d); err != nil {
+		return err
+	}
+	e, ok := d["editor"]
+	if !ok {
+		e, err = writeEditor()
+		if err != nil {
+			return err
+		}
+	}
+	_, err = exec.Command(e, yaml_name).Output()
+	if err != nil {
+		return err
+	}
+	return nil
 }

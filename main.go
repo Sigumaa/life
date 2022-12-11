@@ -8,4 +8,9 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(res)
+
+	fmt.Println("Editing config...")
+	if err := EditConfig(); err != nil {
+		panic(err)
+	}
 }
