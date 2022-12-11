@@ -30,7 +30,7 @@ func createMemo() (f string, err error) {
 	f = "LIFE/" + l + ".md"
 	fl, err := os.Create(f)
 	if err != nil {
-		return "", errors.New("failed to create memo")
+		return "", ErrMakeMemo
 	}
 	defer fl.Close()
 

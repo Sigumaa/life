@@ -44,7 +44,7 @@ func createYaml() error {
 }
 
 func writeEditor() (string, error) {
-	fmt.Print("Please enter your editor of choice(vi,vim,nvim,vscode):\n> ")
+	fmt.Print("Please enter your editor of choice(ex: vi,vim,nvim,code):\n> ")
 	s.Scan()
 	editor := s.Text()
 	if editor == "" {

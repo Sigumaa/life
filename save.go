@@ -20,7 +20,7 @@ func Save(g string) (err error) {
 	if l == "" {
 		return ErrEmptyMemo
 	}
-	f := "LIFE/" + l
+	f := "LIFE/" + l + ".md"
 	if err := gitinit(); err != nil {
 		return err
 	}
