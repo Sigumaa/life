@@ -33,7 +33,7 @@ func Save(g string) (err error) {
 	if err != nil {
 		return ErrCmtGit
 	}
-	_, err = exec.Command("git", "push", g).Output()
+	_, err = exec.Command("git", "push", g, "main").Output()
 	if err != nil {
 		return ErrPushGit
 	}
