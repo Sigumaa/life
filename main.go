@@ -10,7 +10,7 @@ func main() {
 	fmt.Println(res)
 
 	fmt.Println("Editing config...")
-	if err := EditConfig(); err != nil {
+	if err := EditConfig(res.Editor); err != nil {
 		panic(err)
 	}
 }

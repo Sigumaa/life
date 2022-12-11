@@ -101,24 +101,9 @@ func LoadConfig() (res Config, err error) {
 	return res, nil
 }
 
-func EditConfig() error {
+func EditConfig(e string) (err error) {
 	if !exists(yaml_name) {
 		if err := createYaml(); err != nil {
-			return err
-		}
-	}
-	y, err := os.ReadFile(yaml_name)
-	if err != nil {
-		return err
-	}
-	d := make(map[string]string)
-	if err := yaml.Unmarshal(y, &d); err != nil {
-		return err
-	}
-	e, ok := d["editor"]
-	if !ok {
-		e, err = writeEditor()
-		if err != nil {
 			return err
 		}
 	}
